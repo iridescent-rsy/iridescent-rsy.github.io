@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>[Qemu] 网络配置 | irides</title>
+<meta name="description" content="c&#39;est la vie...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://iridescent-rsy.github.io//favicon.ico?v=1563167819999">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://iridescent-rsy.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://iridescent-rsy.github.io/">
+        <img src="https://iridescent-rsy.github.io//images/avatar.png?v=1563167819999" class="site-logo">
+        <h1 class="site-title">irides</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      c'est la vie...
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://iridescent-rsy.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">[Qemu] 网络配置</h2>
+            <div class="post-date">2019-07-15</div>
+            
+            <div class="post-content">
+              <h2 id="网络">网络</h2>
+<ul>
+<li>借用 libvirt 创建的虚拟网桥，建立网络通道</li>
+</ul>
+<p>需求：命令行启动虚机、虚机 mount 宿主 NFS</p>
+<p>问题：（抄的网上的命令行参数）网络用了 -net nic 来 NAT</p>
+<pre><code class="language-bash">qemu-system-x86_64 \
+# ... 省略
+-net nic \
+-net user,hostfwd=tcp::2222-:22 \
+# ... 省略
+</code></pre>
+<p>虚机为 10.0.2.15，宿主为 10.0.2.2，虚机直接通过 IP 访问宿主，而宿主通过端口转发来与虚机通信，可以互通。但是，虚机却不能 mount 宿主机的 NFS（宿主机已修改 nfs 网络权限）</p>
+<p>至于原因，暂时没有深究。<strong>// TODO</strong></p>
+<p>转而想使用之前用 virtsh 时候那样的网桥。配置方法详见 <a href="https://www.linux-kvm.org/page/Networking">Wiki - kvm/networking</a></p>
+<p>这里我借用了 libvirt 创建的网桥 <code>virbr0</code>，这样通过 virtsh 启动时，网段不会改变，NFS 也能自动 mount 成功。</p>
+<p>通过查看网卡可以发现，<code>virbr0</code> 并不是一直 <code>UP</code>，而是在需要的时候，比如 virsh 启动虚机的时候才使能。所以需要一个脚本，让 qemu 起虚机的时候使能这个网卡。</p>
+<pre><code class="language-bash">#!/bin/sh
+# -x 开启 DEBUG，执行时输出执行内容
+set -x
+
+switch=virbr0
+
+if [ -n &quot;$1&quot; ];then
+        # tunctl -u `whoami` -t $1 (use ip tuntap instead!)
+        ip tuntap add $1 mode tap user `whoami`
+        ip link set $1 up
+        sleep 0.5s
+        # brctl addif $switch $1 (use ip link instead!)
+        ip link set $1 master $switch
+        exit 0
+else
+        echo &quot;Error: no interface specified&quot;
+        exit 1
+fi
+</code></pre>
+<p>保存起来。还需要一个随机的 MAC 地址，至少要和使用了这个网卡的其他机器不同。</p>
+<pre><code class="language-bash"># generate a random mac address for the qemu nic
+printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+</code></pre>
+<p>至此，准备工作完成，接下来修改 qemu 参数。</p>
+<pre><code class="language-bash">qemu-system-x86_64 \
+# ... 省略
+-device rtl8139,netdev=net0,mac=$macaddress # -net nic \
+-netdev tap,id=net0,script=/path/to/qemu-ifup #-net user,hostfwd=tcp::2222-:22 \
+# ... 省略
+</code></pre>
+<p>完事儿。</p>
+<h3 id="远程管理">远程管理</h3>
+<ul>
+<li>用一台机器B专门跑虚拟机
+<ul>
+<li>Manjaro Linux</li>
+<li>Libvirt</li>
+</ul>
+</li>
+</ul>
+<h5 id="从a移动虚机到b">从A移动虚机到B</h5>
+<ol>
+<li>导出 xml 定义文件，复制到B</li>
+<li>拷贝磁盘文件到B</li>
+<li>修改xml文件中，磁盘路径等内容</li>
+<li>virsh define xxx.xml，导入虚机</li>
+</ol>
+<ul>
+<li>导入完成后，启动虚机时，无法访问磁盘镜像，permission denied
+<ul>
+<li>将用户添加到 libvirt 和 kvm 组</li>
+<li>修改 /etc/libvirt/qemu.conf 中，<code>user</code> 和 <code>group</code> 项为 '用户名' 和 'kvm'</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://iridescent-rsy.github.io//tag/t1hq5UwC-" class="tag">
+                    Qemu
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://iridescent-rsy.github.io//post/qemu">
+                  <h3 class="post-title">
+                    [Qemu] 升级版本(编译安装)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
