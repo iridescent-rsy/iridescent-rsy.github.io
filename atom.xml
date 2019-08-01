@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://iridescent-rsy.github.io/</id>
     <title>irides</title>
-    <updated>2019-07-15T05:17:03.091Z</updated>
+    <updated>2019-08-01T09:48:25.703Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://iridescent-rsy.github.io/"/>
     <link rel="self" href="https://iridescent-rsy.github.io//atom.xml"/>
@@ -10,6 +10,26 @@
     <logo>https://iridescent-rsy.github.io//images/avatar.png</logo>
     <icon>https://iridescent-rsy.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, irides</rights>
+    <entry>
+        <title type="html"><![CDATA[[已解决] Manjaro 18.0.4 + 搜狗拼音 崩溃]]></title>
+        <id>https://iridescent-rsy.github.io//post/jie-jue-manjaro-1804-sou-gou-pin-yin-beng-kui</id>
+        <link href="https://iridescent-rsy.github.io//post/jie-jue-manjaro-1804-sou-gou-pin-yin-beng-kui">
+        </link>
+        <updated>2019-08-01T09:33:32.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="问题">问题</h3>
+<p>Manjaro系统装好之后，直接用了 <code>pacman -S fcitx-sogoupinyin</code> 来安装搜狗拼音输入法。</p>
+<p>但是切换到搜狗时，不仅没法打出中文，还提示崩溃：</p>
+<blockquote>
+<p>搜狗输入法异常！请删除.config/SogouPY 并重启</p>
+</blockquote>
+<p>即便照做了，也还是没用，崩溃依旧。</p>
+<h4 id="解决">解决</h4>
+<p>安装fcitx-qt4：<code>pacman -S fcitx-qt4</code>。<br>
+会提示和 fcitx 这个包有冲突，虽然不知道为什么，但是还是强制安装吧。</p>
+<p>恩，就这...... 感觉应该是因为fcitx默认使用了qt5的框架，而搜狗输入法还是qt4。<br>
+其实好像去年也遇到这个问题的，当时还解决了。可是记性不好，怎么也想不起来了。还是记下来为好。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[误删文件了...]]></title>
         <id>https://iridescent-rsy.github.io//post/wu-shan-wen-jian-liao</id>
