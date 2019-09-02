@@ -1,157 +1,321 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
 
-<title>Qemu | irides</title>
-<meta name="description" content="c&#39;est la vie...">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://iridescent-rsy.github.io//favicon.ico?v=1564653071606">
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+    Qemu | irides
+</title>
+<link rel="shortcut icon" href="https://iridescent-rsy.github.io//favicon.ico?v=1567394526330">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://iridescent-rsy.github.io//styles/main.css">
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://iridescent-rsy.github.io//media/js/jquery.sticky-sidebar.min.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
-  </head>
-  <body>
-    <div id="app" class="main">
+</head>
 
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://iridescent-rsy.github.io/">
-        <img src="https://iridescent-rsy.github.io//images/avatar.png?v=1564653071606" class="site-logo">
-        <h1 class="site-title">irides</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      c'est la vie...
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://iridescent-rsy.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: Qemu</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://iridescent-rsy.github.io//post/qemu-wang-luo-pei-zhi">
-                  <h2 class="post-title">[Qemu] 网络配置</h2>
-                </a>
-                <div class="post-date">
-                  2019-07-15
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://iridescent-rsy.github.io//post/qemu">
-                  <h2 class="post-title">[Qemu] 升级版本(编译安装)</h2>
-                </a>
-                <div class="post-date">
-                  2019-07-15
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-</div>
-
+<body>
+    <div class="main">
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://iridescent-rsy.github.io/">
+                <img class="avatar" src="https://iridescent-rsy.github.io//images/avatar.png?v=1567394526330" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    irides
+                </h1>
+            </div>
         </div>
-      </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    归档
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/post/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
+        </div>
     </div>
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
 
-<script type="application/javascript">
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
 
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
+        });
+    });
 </script>
 
+            <div id="main-content" class="post-container main-container">
+                <div id="content" class="main-container-left">
+                    
+    <div class="i-card">
+        <b>标签：#
+        Qemu</b>
+    </div>
+    
+        
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://iridescent-rsy.github.io//post/qemu-wang-luo-pei-zhi">
+                        [Qemu] 网络配置
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2019-07-15</time>
+                    
+                        <a href="https://iridescent-rsy.github.io//tag/t1hq5UwC-" class="post-tag i-tag
+                            i-tag-">
+            #Qemu
+        </a>
+                        
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            网络
+
+借用 libvirt 创建的虚拟网桥，建立网络通道
+
+需求：命令行启动虚机、虚机 mount 宿主 NFS
+问题：（抄的网上的命令行参数）网络用了 -net nic 来 NAT
+qemu-system-x86_64 \
+# ... 省略
+-net nic \
+-net user,hostfwd=tcp::2222-:22 \
+# ... 省略
+
+虚机为 10.0.2.15，宿主为 10.0.2.2，虚机直接通过 IP 访问宿主，而宿主通过端口转发来与虚机通信，可以互通。但是，虚机却不能 mount 宿主机的 NFS（宿主机已修改 nfs 网络权限）
+至于原因，暂时没有深究。// TODO
+转而想使用之前用 virtsh 时候那样的网桥。配置方法详见 Wiki - kvm/networking
+这里我借用了 libvirt 创建的网桥 virbr0，这样通过 virtsh 启动时，网段不会改变，NFS 也能自动 mount 成功。
+通过查看网卡可以发现，virbr0 并不是一直 UP，而是在需要的时候，比如 virsh 启动虚机的时候才使能。所以需要一个脚本，让 qemu 起虚机的时候使能这个网卡。
+#!/bin/sh
+# -x 开启 DEBUG，执行时输出执行内容
+set -x
+
+switch=virbr0
+
+if [ -n &amp;quot;$1&amp;quot; ];then
+        # tunctl -u `whoami` -t $1 (use ip tuntap instead!)
+        ip tuntap add $1 mode tap user `whoami`
+        ip link set $1 up
+        sleep 0.5s
+        # brctl addif $switch $1 (use ip link instead!)
+        ip link set $1 master $switch
+        exit 0
+else
+        echo &amp;quot;Error: no interface specified&amp;quot;
+        exit 1
+fi
+
+保存起来。还需要一个随机的 MAC 地址，至少要和使用了这个网卡的其他机器不同。
+# generate a random mac address for the qemu nic
+printf &#39;DE:AD:BE:EF:%02X:%02X\n&#39; $((RANDOM%256)) $((RANDOM%256))
+
+至此，准备工作完成，接下来修改 qemu 参数。
+qemu-system-x86_64 \
+# ... 省略
+-device rtl8139,netdev=net0,mac=$macaddress # -net nic \
+-netdev tap,id=net0,script=/path/to/qemu-ifup #-net user,hostfwd=tcp::2222-:22 \
+# ... 省略
+
+完事儿。
+远程管理
+
+用一台机器B专门跑虚拟机
+
+Manjaro Linux
+Libvirt
 
 
 
-  </body>
+从A移动虚机到B
+
+导出 xml 定义文件，复制到B
+拷贝磁盘文件到B
+修改xml文件中，磁盘路径等内容
+virsh define xxx.xml，导入虚机
+
+
+导入完成后，启动虚机时，无法访问磁盘镜像，permission denied
+
+将用户添加到 libvirt 和 kvm 组
+修改 /etc/libvirt/qemu.conf 中，user 和 group 项为 &#39;用户名&#39; 和 &#39;kvm&#39;
+
+
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://iridescent-rsy.github.io//post/qemu-wang-luo-pei-zhi">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://iridescent-rsy.github.io//post/qemu">
+                        [Qemu] 升级版本(编译安装)
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2019-07-15</time>
+                    
+                        <a href="https://iridescent-rsy.github.io//tag/t1hq5UwC-" class="post-tag i-tag
+                            i-tag-other_2">
+            #Qemu
+        </a>
+                        
+                </div>
+                <div class="post-article">
+                    
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            升级
+参考自 How do I install QEMU 3.0 on ubuntu 18.04?
+移除系统中旧版本的 qemu
+sudo apt-get purge &amp;quot;qemu*&amp;quot;
+sudo apt-get autoremove
+
+安装 qemu 源码编译环境
+We should start by installing its build-dependencies - at first enable Source Code repositories in Software and Updates (software-properties-gtk), and then:
+sudo apt-get build-dep qemu
+
+下载源码并编译
+cd ~/Downloads
+wget https://download.qemu.org/qemu-3.0.0.tar.xz
+tar -xf qemu-3.0.0.tar.xz
+cd qemu-3.0.0/
+./configure --enable-spice
+make
+
+
+注意这里要使能 spice，否则开启虚拟机时会报错
+
+打包
+and then use checkinstall:
+sudo apt-get install checkinstall
+sudo checkinstall make install
+sudo apt-get install ./*.deb
+
+if you want to remove it - remove its packages as usual.
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://iridescent-rsy.github.io//post/qemu">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+                <!-- 翻页 -->
+                
+                </div>
+                <!--  -->
+                <div class="main-container-middle"></div>
+                <!--  -->
+                <div id="sidebar" class="main-container-right">
+
+                    <!-- 个人信息 -->
+                    
+    <div class="id_card i-card">
+        <div class="id_card-avatar" style="background-image: url(https://iridescent-rsy.github.io//images/avatar.png?v=1567394526330)">
+        </div>
+        <h1 class="id_card-title">
+            irides
+        </h1>
+        <h2 class="id_card-description">
+            c&#39;est la vie...
+        </h2>
+        <!--  -->
+        <div class="id_card-sns">
+            <!-- github -->
+            
+                    <!-- twitter -->
+                    
+                            <!-- weibo -->
+                            
+                                    <!-- facebook -->
+                                    
+
+        </div>
+    </div>
+    
+
+                        <!-- 公告栏 -->
+                        
+
+                </div>
+            </div>
+
+
+
+            <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://iridescent-rsy.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+    <script>
+        $('#sidebar').stickySidebar({
+            topSpacing: 80,
+            // bottomSpacing: 60
+        });
+    </script>
+</body>
+
 </html>
